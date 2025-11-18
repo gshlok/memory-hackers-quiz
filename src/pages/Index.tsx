@@ -21,18 +21,14 @@ const Index = () => {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen">
-        {/* ASCII Logo */}
-        <div className="mb-8 text-primary font-mono text-xs md:text-sm animate-flicker">
-          <pre className="text-center leading-tight">
-{`
-   ██████╗ ██╗   ██╗██╗███████╗    ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗
-  ██╔═══██╗██║   ██║██║╚══███╔╝    ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║
-  ██║   ██║██║   ██║██║  ███╔╝     ███████╗ ╚████╔╝ ███████╗   ██║   █████╗  ██╔████╔██║
-  ██║▄▄ ██║██║   ██║██║ ███╔╝      ╚════██║  ╚██╔╝  ╚════██║   ██║   ██╔══╝  ██║╚██╔╝██║
-  ╚██████╔╝╚██████╔╝██║███████╗    ███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║
-   ╚══▀▀═╝  ╚═════╝ ╚═╝╚══════╝    ╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝
-`}
-          </pre>
+        {/* Simplified Logo for Mobile */}
+        <div className="mb-8 text-primary font-mono text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+            <GlitchText>MEMORY HACKERS</GlitchText>
+          </h1>
+          <p className="text-lg sm:text-xl text-accent font-mono">
+            QUIZ SYSTEM
+          </p>
         </div>
 
         {/* Main Card */}
