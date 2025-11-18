@@ -37,7 +37,7 @@ const Results = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Grid overlay */}
-      <div
+      <div 
         className="absolute inset-0 opacity-10"
         style={{
           backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
@@ -148,23 +148,6 @@ const Results = () => {
             </div>
           </div>
         </TerminalCard>
-
-        {/* Performance Breakdown */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-2xl w-full">
-          <TerminalCard className="text-center">
-            <p className="text-sm text-muted-foreground font-mono mb-2">EASY</p>
-            <p className="text-2xl font-bold text-primary">
-              {Math.round((score / total) * 15)}/15
-            </p>
-          </TerminalCard>
-
-          <TerminalCard className="text-center">
-            <p className="text-sm text-muted-foreground font-mono mb-2">HARD</p>
-            <p className="text-2xl font-bold text-accent">
-              {Math.round((score / total) * 15)}/15
-            </p>
-          </TerminalCard>
-        </div>
 
         {/* System Message */}
         <div className="mt-8 text-center text-muted-foreground font-mono text-sm">
