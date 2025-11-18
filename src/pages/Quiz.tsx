@@ -9,14 +9,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2, ArrowRight, ArrowLeft } from "lucide-react";
-
-interface Question {
-  id: string;
-  question_text: string;
-  options: string[];
-  correct_option: number;
-  difficulty: string;
-}
+import { hardcodedQuestions as allQuestions, Question } from "@/data/questions";
 
 const Quiz = () => {
   const navigate = useNavigate();
@@ -24,69 +17,29 @@ const Quiz = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
-  const [sessionId, setSessionId] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
-    loadQuestions();
-    createSession();
-  }, []);
-
-  const createSession = async () => {
-    const fingerprint = `session_${Date.now()}_${Math.random()}`;
-    const { data, error } = await supabase
-      .from("user_sessions")
-      .insert({ session_fingerprint: fingerprint })
-      .select()
-      .single();
-
-    if (error) {
-      console.error("Error creating session:", error);
-      toast.error("Failed to start quiz session");
+    // Get user name from localStorage
+    const name = localStorage.getItem("quizUserName");
+    if (!name) {
+      toast.error("User name not found. Please start again.");
+      navigate("/user");
       return;
     }
-
-    if (data) {
-      setSessionId(data.id);
-    }
-  };
-
-  const loadQuestions = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("questions")
-        .select("*")
-        .order("difficulty", { ascending: true });
-
-      if (error) throw error;
-
-      if (!data || data.length === 0) {
-        toast.error("No questions available. Please contact admin.");
-        navigate("/");
-        return;
-      }
-
-      // Get 5 easy, 5 medium, 5 hard and map to correct type
-      const easy = data.filter((q) => q.difficulty === "easy").slice(0, 5);
-      const medium = data.filter((q) => q.difficulty === "medium").slice(0, 5);
-      const hard = data.filter((q) => q.difficulty === "hard").slice(0, 5);
-
-      const mappedQuestions = [...easy, ...medium, ...hard].map(q => ({
-        ...q,
-        options: q.options as unknown as string[]
-      }));
-
-      setQuestions(mappedQuestions);
-    } catch (error) {
-      console.error("Error loading questions:", error);
-      toast.error("Failed to load questions");
-      navigate("/");
-    } finally {
-      setLoading(false);
-    }
-  };
+    setUserName(name);
+    
+    // Select 5 easy, 5 medium, 5 hard questions
+    const easy = allQuestions.filter(q => q.difficulty === "easy").slice(0, 5);
+    const medium = allQuestions.filter(q => q.difficulty === "medium").slice(0, 5);
+    const hard = allQuestions.filter(q => q.difficulty === "hard").slice(0, 5);
+    
+    setQuestions([...easy, ...medium, ...hard]);
+    setLoading(false);
+  }, [navigate]);
 
   const handleAnswer = (optionIndex: number) => {
-    setAnswers({ ...answers, [questions[currentIndex].id]: optionIndex });
+    setAnswers(prev => ({ ...prev, [questions[currentIndex].id]: optionIndex }));
   };
 
   const handleNext = () => {
@@ -115,27 +68,23 @@ const Quiz = () => {
       }
     });
 
-    // Save response
-    const { error: sessionError } = await supabase
-      .from("user_sessions")
-      .update({ completed_at: new Date().toISOString() })
-      .eq("id", sessionId);
-
-    if (sessionError) {
-      console.error("Error updating session:", sessionError);
-    }
-
-    const { error } = await supabase.from("responses").insert({
-      session_id: sessionId,
-      answers: answers,
+    // Try to save to quiz_submissions table
+    const { error } = await supabase.from("quiz_submissions").insert({
+      user_name: userName,
       score: score,
     });
 
+    // If we get an error, it might be due to RLS, so we'll show a warning but continue
     if (error) {
-      console.error("Error saving response:", error);
-      toast.error("Failed to save your answers");
-      return;
+      console.error("Error saving quiz submission:", error);
+      // We'll still navigate to results even if we can't save to database
+      toast.warning("Could not save your results to database, but you can still see your score.");
+    } else {
+      toast.success("Results saved successfully!");
     }
+
+    // Clear user name from localStorage
+    localStorage.removeItem("quizUserName");
 
     navigate("/results", { state: { score, total: questions.length } });
   };
@@ -159,7 +108,7 @@ const Quiz = () => {
 
   const currentQuestion = questions[currentIndex];
   const progress = ((currentIndex + 1) / questions.length) * 100;
-  const selectedAnswer = answers[currentQuestion.id];
+  const selectedAnswer = answers[currentQuestion.id] !== undefined ? answers[currentQuestion.id].toString() : "";
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
@@ -208,13 +157,13 @@ const Quiz = () => {
               <p className="text-sm text-muted-foreground font-mono mb-4">
                 {'>'} SELECT_OPTION:
               </p>
-              <RadioGroup value={selectedAnswer?.toString()} onValueChange={(v) => handleAnswer(parseInt(v))}>
+              <RadioGroup value={selectedAnswer} onValueChange={(v) => handleAnswer(parseInt(v))}>
                 <div className="space-y-3">
                   {currentQuestion.options.map((option, idx) => (
                     <div
                       key={idx}
                       className={`flex items-center space-x-3 p-4 rounded border-2 transition-all cursor-pointer
-                        ${selectedAnswer === idx 
+                        ${selectedAnswer === idx.toString() 
                           ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(0,255,0,0.2)]' 
                           : 'border-border hover:border-primary/50'}`}
                       onClick={() => handleAnswer(idx)}

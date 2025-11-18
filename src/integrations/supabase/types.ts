@@ -47,6 +47,27 @@ export type Database = {
         }
         Relationships: []
       }
+      quiz_submissions: {
+        Row: {
+          id: string
+          user_name: string
+          score: number
+          submitted_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_name: string
+          score: number
+          submitted_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_name?: string
+          score?: number
+          submitted_at?: string | null
+        }
+        Relationships: []
+      }
       responses: {
         Row: {
           answers: Json

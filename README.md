@@ -1,8 +1,33 @@
-# Welcome to your Lovable project
+# Memory Hackers Quiz
 
-## Project info
+A mobile-focused quiz application for testing knowledge of Dynamic Memory Allocation and Linked Lists.
 
-**URL**: https://lovable.dev/projects/479e2ad2-0120-4d53-ba4d-8d2947ad14db
+## Project Overview
+
+This is a simplified quiz application that:
+- Uses hardcoded questions instead of fetching from a database
+- Collects only the user's name and final score
+- Stores results in a simplified database schema
+
+## Database Schema
+
+The application uses a simplified schema with only one table for storing quiz results:
+
+```sql
+CREATE TABLE public.quiz_submissions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_name TEXT NOT NULL,
+  score INTEGER NOT NULL,
+  submitted_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+```
+
+## Key Features
+
+- **Mobile-First Design**: Optimized for mobile devices with no inspect element cheating
+- **Simplified Flow**: Users enter their name, take the quiz, and see results
+- **Hardcoded Questions**: All questions are embedded in the application code
+- **Minimal Data Storage**: Only user name and final score are stored
 
 ## How can I edit this code?
 
@@ -59,6 +84,7 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+- Supabase (for database storage)
 
 ## How can I deploy this project?
 

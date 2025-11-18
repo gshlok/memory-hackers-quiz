@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { TerminalCard } from "@/components/ui/terminal-card";
 import { GlitchText } from "@/components/GlitchText";
 import { useNavigate } from "react-router-dom";
-import { Terminal, Zap, Shield, Brain } from "lucide-react";
+import { Terminal, Zap, Brain } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <Button
                 size="lg"
-                onClick={() => navigate("/quiz")}
+                onClick={() => navigate("/user")}
                 className="relative bg-primary text-primary-foreground hover:bg-primary/90 
                          font-mono text-lg px-8 py-6 group overflow-hidden
                          shadow-[0_0_20px_rgba(0,255,0,0.3)]"
@@ -66,17 +66,6 @@ const Index = () => {
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent 
                               opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Button>
-
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => navigate("/admin/login")}
-                className="border-2 border-primary/50 text-primary hover:bg-primary/10 
-                         font-mono text-lg px-8 py-6"
-              >
-                <Shield className="w-5 h-5 mr-2" />
-                ADMIN ACCESS
               </Button>
             </div>
           </div>

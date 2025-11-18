@@ -15,3 +15,15 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     autoRefreshToken: true,
   }
 });
+
+// Admin client for server-side operations
+let adminSupabase: ReturnType<typeof createClient<Database>> | null = null;
+
+export const getAdminSupabase = () => {
+  if (!adminSupabase) {
+    // In a real application, this would come from an environment variable
+    // For now, we'll use the publishable key since this is a simplified setup
+    adminSupabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+  }
+  return adminSupabase;
+};
