@@ -28,13 +28,12 @@ const Quiz = () => {
       return;
     }
     setUserName(name);
-    
-    // Select 5 easy, 5 medium, 5 hard questions
-    const easy = allQuestions.filter(q => q.difficulty === "easy").slice(0, 5);
-    const medium = allQuestions.filter(q => q.difficulty === "medium").slice(0, 5);
-    const hard = allQuestions.filter(q => q.difficulty === "hard").slice(0, 5);
-    
-    setQuestions([...easy, ...medium, ...hard]);
+
+    // Select 15 easy and 15 hard questions
+    const easy = allQuestions.filter(q => q.difficulty === "easy");
+    const hard = allQuestions.filter(q => q.difficulty === "hard");
+
+    setQuestions([...easy, ...hard]);
     setLoading(false);
   }, [navigate]);
 
@@ -113,7 +112,7 @@ const Quiz = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Grid overlay */}
-      <div 
+      <div
         className="absolute inset-0 opacity-10"
         style={{
           backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
@@ -163,8 +162,8 @@ const Quiz = () => {
                     <div
                       key={idx}
                       className={`flex items-center space-x-3 p-4 rounded border-2 transition-all cursor-pointer
-                        ${selectedAnswer === idx.toString() 
-                          ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(0,255,0,0.2)]' 
+                        ${selectedAnswer === idx.toString()
+                          ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(0,255,0,0.2)]'
                           : 'border-border hover:border-primary/50'}`}
                       onClick={() => handleAnswer(idx)}
                     >
@@ -224,8 +223,8 @@ const Quiz = () => {
                   key={q.id}
                   onClick={() => setCurrentIndex(idx)}
                   className={`w-10 h-10 rounded border-2 font-mono text-sm transition-all
-                    ${idx === currentIndex 
-                      ? 'border-primary bg-primary text-primary-foreground shadow-[0_0_10px_rgba(0,255,0,0.3)]' 
+                    ${idx === currentIndex
+                      ? 'border-primary bg-primary text-primary-foreground shadow-[0_0_10px_rgba(0,255,0,0.3)]'
                       : answers[q.id] !== undefined
                         ? 'border-accent text-accent'
                         : 'border-border text-muted-foreground'}`}

@@ -10,7 +10,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Grid overlay */}
-      <div 
+      <div
         className="absolute inset-0 opacity-10"
         style={{
           backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
@@ -24,7 +24,7 @@ const Index = () => {
         {/* ASCII Logo */}
         <div className="mb-8 text-primary font-mono text-xs md:text-sm animate-flicker">
           <pre className="text-center leading-tight">
-{`
+            {`
    ██████╗ ██╗   ██╗██╗███████╗    ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗
   ██╔═══██╗██║   ██║██║╚══███╔╝    ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║
   ██║   ██║██║   ██║██║  ███╔╝     ███████╗ ╚████╔╝ ███████╗   ██║   █████╗  ██╔████╔██║

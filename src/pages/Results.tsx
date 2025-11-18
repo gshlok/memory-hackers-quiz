@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 const Results = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { score, total } = location.state || { score: 0, total: 15 };
+  const { score, total } = location.state || { score: 0, total: 30 };
   const [showConfetti, setShowConfetti] = useState(false);
 
   const percentage = Math.round((score / total) * 100);
@@ -37,7 +37,7 @@ const Results = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Grid overlay */}
-      <div 
+      <div
         className="absolute inset-0 opacity-10"
         style={{
           backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
@@ -150,25 +150,18 @@ const Results = () => {
         </TerminalCard>
 
         {/* Performance Breakdown */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-2xl w-full">
+        <div className="grid md:grid-cols-2 gap-6 max-w-2xl w-full">
           <TerminalCard className="text-center">
             <p className="text-sm text-muted-foreground font-mono mb-2">EASY</p>
             <p className="text-2xl font-bold text-primary">
-              {Math.round((score / total) * 5)}/5
-            </p>
-          </TerminalCard>
-
-          <TerminalCard className="text-center">
-            <p className="text-sm text-muted-foreground font-mono mb-2">MEDIUM</p>
-            <p className="text-2xl font-bold text-accent">
-              {Math.round((score / total) * 5)}/5
+              {Math.round((score / total) * 15)}/15
             </p>
           </TerminalCard>
 
           <TerminalCard className="text-center">
             <p className="text-sm text-muted-foreground font-mono mb-2">HARD</p>
-            <p className="text-2xl font-bold text-primary">
-              {Math.round((score / total) * 5)}/5
+            <p className="text-2xl font-bold text-accent">
+              {Math.round((score / total) * 15)}/15
             </p>
           </TerminalCard>
         </div>
