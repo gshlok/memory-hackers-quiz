@@ -14,7 +14,7 @@ dist-ssr
 .env
 .env.local
 .env.*
-!.env.example
+memory-hackers-quiz\.env
 
 # Editor directories and files
 .vscode/*
