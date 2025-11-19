@@ -67,9 +67,13 @@ const Quiz = () => {
       }
     });
 
+    // Get email from localStorage
+    const userEmail = localStorage.getItem("quizUserEmail");
+
     // Try to save to quiz_submissions table
     const { error } = await supabase.from("quiz_submissions").insert({
       user_name: userName,
+      email: userEmail || null,
       score: score,
     });
 
@@ -82,8 +86,9 @@ const Quiz = () => {
       toast.success("Results saved successfully!");
     }
 
-    // Clear user name from localStorage
+    // Clear user details from localStorage
     localStorage.removeItem("quizUserName");
+    localStorage.removeItem("quizUserEmail");
 
     navigate("/results", { state: { score, total: questions.length } });
   };
@@ -111,16 +116,6 @@ const Quiz = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Grid overlay */}
-      <div
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
-                           linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)`,
-          backgroundSize: '50px 50px'
-        }}
-      />
-
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -129,10 +124,10 @@ const Quiz = () => {
               <GlitchText>QUIZ_TERMINAL</GlitchText>
             </h1>
             <div className="text-right">
-              <p className="text-sm text-muted-foreground font-mono">
+              <p className="text-sm text-primary font-mono">
                 QUESTION {currentIndex + 1} / {questions.length}
               </p>
-              <p className="text-xs text-accent font-mono uppercase">
+              <p className="text-xs text-primary font-mono uppercase">
                 DIFFICULTY: {currentQuestion.difficulty}
               </p>
             </div>
@@ -141,10 +136,10 @@ const Quiz = () => {
         </div>
 
         {/* Question Card */}
-        <TerminalCard className="max-w-3xl mx-auto mb-8" glow>
+        <TerminalCard className="max-w-3xl mx-auto mb-8">
           <div className="space-y-6">
             <div>
-              <p className="text-sm text-muted-foreground font-mono mb-2">
+              <p className="text-sm text-primary font-mono mb-2">
                 {'>'} QUERY:
               </p>
               <h2 className="text-xl md:text-2xl font-bold text-foreground whitespace-pre-wrap">
@@ -153,7 +148,7 @@ const Quiz = () => {
             </div>
 
             <div>
-              <p className="text-sm text-muted-foreground font-mono mb-4">
+              <p className="text-sm text-primary font-mono mb-4">
                 {'>'} SELECT_OPTION:
               </p>
               <RadioGroup value={selectedAnswer} onValueChange={(v) => handleAnswer(parseInt(v))}>
@@ -163,7 +158,7 @@ const Quiz = () => {
                       key={idx}
                       className={`flex items-center space-x-3 p-4 rounded border-2 transition-all cursor-pointer
                         ${selectedAnswer === idx.toString()
-                          ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(0,255,0,0.2)]'
+                          ? 'border-primary bg-primary/10'
                           : 'border-border hover:border-primary/50'}`}
                       onClick={() => handleAnswer(idx)}
                     >
@@ -185,7 +180,7 @@ const Quiz = () => {
             variant="outline"
             onClick={handlePrevious}
             disabled={currentIndex === 0}
-            className="border-2 border-primary/50 text-primary hover:bg-primary/10"
+            className="border border-primary text-primary hover:bg-primary/10"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             PREVIOUS
@@ -195,7 +190,7 @@ const Quiz = () => {
             <Button
               onClick={handleSubmit}
               disabled={Object.keys(answers).length < questions.length}
-              className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-[0_0_20px_rgba(0,255,255,0.3)]"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               SUBMIT QUIZ
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -214,7 +209,7 @@ const Quiz = () => {
         {/* Answer Summary */}
         <div className="mt-8 max-w-3xl mx-auto">
           <TerminalCard>
-            <p className="text-sm text-muted-foreground font-mono mb-3">
+            <p className="text-sm text-primary font-mono mb-3">
               {'>'} ANSWER_STATUS:
             </p>
             <div className="flex flex-wrap gap-2">
@@ -224,10 +219,10 @@ const Quiz = () => {
                   onClick={() => setCurrentIndex(idx)}
                   className={`w-10 h-10 rounded border-2 font-mono text-sm transition-all
                     ${idx === currentIndex
-                      ? 'border-primary bg-primary text-primary-foreground shadow-[0_0_10px_rgba(0,255,0,0.3)]'
+                      ? 'border-primary bg-primary text-primary-foreground'
                       : answers[q.id] !== undefined
-                        ? 'border-accent text-accent'
-                        : 'border-border text-muted-foreground'}`}
+                        ? 'border-primary text-primary'
+                        : 'border-border text-primary'}`}
                 >
                   {idx + 1}
                 </button>

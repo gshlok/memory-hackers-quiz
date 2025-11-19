@@ -1,0 +1,80 @@
+/* Minimal animations for the black and white theme */
+
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+
+    20% {
+        transform: translate(-1px, 1px);
+    }
+
+    40% {
+        transform: translate(-1px, -1px);
+    }
+
+    60% {
+        transform: translate(1px, 1px);
+    }
+
+    80% {
+        transform: translate(1px, -1px);
+    }
+
+    100% {
+        transform: translate(0);
+    }
+}
+
+@keyframes flicker {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.9;
+    }
+}
+
+@keyframes terminal-cursor {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes neon-pulse {
+
+    0%,
+    100% {
+        text-shadow: 0 0 2px hsl(var(--primary));
+    }
+
+    50% {
+        text-shadow: 0 0 1px hsl(var(--primary));
+    }
+}
+
+/* Animation classes */
+.animate-glitch {
+    animation: glitch 0.3s ease-in-out;
+}
+
+.animate-flicker {
+    animation: flicker 1.5s ease-in-out infinite;
+}
+
+.animate-terminal-cursor {
+    animation: terminal-cursor 1s infinite;
+}
+
+.animate-neon-pulse {
+    animation: neon-pulse 2s ease-in-out infinite;
+}

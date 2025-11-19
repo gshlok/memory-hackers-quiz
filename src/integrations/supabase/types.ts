@@ -51,18 +51,21 @@ export type Database = {
         Row: {
           id: string
           user_name: string
+          email: string | null
           score: number
           submitted_at: string | null
         }
         Insert: {
           id?: string
           user_name: string
+          email?: string | null
           score: number
           submitted_at?: string | null
         }
         Update: {
           id?: string
           user_name?: string
+          email?: string | null
           score?: number
           submitted_at?: string | null
         }

@@ -29,23 +29,13 @@ const Results = () => {
   };
 
   const getStatusColor = () => {
-    if (percentage >= 90) return "text-accent";
+    if (percentage >= 90) return "text-primary";
     if (percentage >= 60) return "text-primary";
-    return "text-destructive";
+    return "text-primary";
   };
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Grid overlay */}
-      <div 
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
-                           linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)`,
-          backgroundSize: '50px 50px'
-        }}
-      />
-
       {/* Confetti effect */}
       {showConfetti && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -66,14 +56,14 @@ const Results = () => {
 
       <div className="relative z-10 container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen">
         {/* Main Results Card */}
-        <TerminalCard className="max-w-2xl w-full mb-8" glow>
+        <TerminalCard className="max-w-2xl w-full mb-8">
           <div className="text-center space-y-6">
             {/* Status Icon */}
             <div className="flex justify-center">
               {passed ? (
-                <CheckCircle2 className="w-24 h-24 text-primary animate-neon-pulse" />
+                <CheckCircle2 className="w-24 h-24 text-primary" />
               ) : (
-                <XCircle className="w-24 h-24 text-destructive animate-flicker" />
+                <XCircle className="w-24 h-24 text-primary" />
               )}
             </div>
 
@@ -84,14 +74,14 @@ const Results = () => {
                   {passed ? "ACCESS GRANTED" : "ACCESS DENIED"}
                 </GlitchText>
               </h1>
-              <p className={`text-xl font-mono ${getStatusColor()} animate-flicker`}>
+              <p className={`text-xl font-mono ${getStatusColor()}`}>
                 {'>'} {getMessage()}
               </p>
             </div>
 
             {/* Score Display */}
             <div className="py-8">
-              <div className="text-6xl md:text-8xl font-bold text-primary animate-neon-pulse mb-2">
+              <div className="text-6xl md:text-8xl font-bold text-primary mb-2">
                 {score}/{total}
               </div>
               <div className={`text-3xl md:text-4xl font-mono ${getStatusColor()}`}>
@@ -100,24 +90,24 @@ const Results = () => {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 py-6 border-t border-b border-primary/30">
+            <div className="grid grid-cols-3 gap-4 py-6 border-t border-b border-primary">
               <div>
-                <p className="text-sm text-muted-foreground font-mono mb-1">CORRECT</p>
+                <p className="text-sm text-primary font-mono mb-1">CORRECT</p>
                 <p className="text-2xl font-bold text-primary">{score}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground font-mono mb-1">INCORRECT</p>
-                <p className="text-2xl font-bold text-destructive">{total - score}</p>
+                <p className="text-sm text-primary font-mono mb-1">INCORRECT</p>
+                <p className="text-2xl font-bold text-primary">{total - score}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground font-mono mb-1">ACCURACY</p>
-                <p className="text-2xl font-bold text-accent">{percentage}%</p>
+                <p className="text-sm text-primary font-mono mb-1">ACCURACY</p>
+                <p className="text-2xl font-bold text-primary">{percentage}%</p>
               </div>
             </div>
 
             {/* Feedback Message */}
-            <div className="bg-card/50 border border-primary/30 rounded p-4">
-              <p className="text-muted-foreground font-mono text-sm leading-relaxed">
+            <div className="bg-card border border-primary rounded p-4">
+              <p className="text-primary font-mono text-sm leading-relaxed">
                 {passed
                   ? "{'>'} QUIZ COMPLETED SUCCESSFULLY. Your understanding of Dynamic Memory Allocation and Linked Lists has been verified. Keep up the excellent work!"
                   : "{'>'} QUIZ COMPLETED. Consider reviewing the topics and trying again. Focus on understanding memory management concepts and pointer operations."}
@@ -129,8 +119,7 @@ const Results = () => {
               <Button
                 size="lg"
                 onClick={() => navigate("/quiz")}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 
-                         shadow-[0_0_20px_rgba(0,255,0,0.3)]"
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 <RotateCcw className="w-5 h-5 mr-2" />
                 RETRY QUIZ
@@ -140,7 +129,7 @@ const Results = () => {
                 size="lg"
                 variant="outline"
                 onClick={() => navigate("/")}
-                className="border-2 border-primary/50 text-primary hover:bg-primary/10"
+                className="border border-primary text-primary hover:bg-primary/10"
               >
                 <Home className="w-5 h-5 mr-2" />
                 HOME
@@ -150,7 +139,7 @@ const Results = () => {
         </TerminalCard>
 
         {/* System Message */}
-        <div className="mt-8 text-center text-muted-foreground font-mono text-sm">
+        <div className="mt-8 text-center text-primary font-mono text-sm">
           <p className="animate-terminal-cursor">
             {'>'} SYSTEM_READY_FOR_NEW_SESSION_
           </p>

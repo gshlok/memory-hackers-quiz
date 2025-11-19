@@ -17,7 +17,7 @@ export function GlitchText({ children, className, animate = true }: GlitchTextPr
       )}
       style={{
         textShadow: animate
-          ? "0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary))"
+          ? "0 0 2px hsl(var(--primary))"
           : undefined,
       }}
     >
